@@ -2,9 +2,9 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { registerStudent } from '../../../api/endpoints/auth/student-auth';
-import { studentRegistrationValidationSchema } from '../../../validations/auth/studentRegisterValidation';
+import { registerValidationSchema } from '../../../validations/auth/registerValidation';
 import { toast } from 'react-toastify';
-import { useModal } from './../../common/modal-context';
+import { useModal } from '../../../context/modal-context';
 import { APP_LOGO } from './../../../constants/common';
 
 const RegisterModal: React.FC = () => {
@@ -40,7 +40,7 @@ const RegisterModal: React.FC = () => {
                     </div>
                     <Formik
                         initialValues={{ fullName: '', email: '', password: '' }}
-                        validationSchema={studentRegistrationValidationSchema}
+                        validationSchema={registerValidationSchema}
                         onSubmit={handleSubmit}
                     >
                         <Form className="mt-10 space-y-4">

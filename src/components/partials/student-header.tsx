@@ -3,15 +3,18 @@ import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import ProfileMenu from '../elements/profile-menu';
-import { selectIsLoggedIn } from '../../redux/reducers/authSlice';
+import { selectIsLoggedIn, selectUserType } from '../../redux/reducers/authSlice';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import { APP_LOGO } from '../../constants/common';
-import { selectUserType } from '../../redux/reducers/authSlice';
 import SearchBar from '../../components/common/search-bar';
-import { useModal } from './../common/modal-context';
+import { useModal } from '../../context/modal-context';
 import LoginModal from './../pages/students/student-login-modal';
 import RegisterModal from '../pages/students/student-register-modal';
+// import InstructorLoginModal from './../pages/instructors/instructor-login-modal';
+import SwitchUserButton from '../../components/common/switch-user-button';
+import StudentHomePage from 'components/pages/students/student-home-page';
+import InstructorDashboard from 'components/pages/instructors/instructor-dash-board';
 
 const navigation = [
     { name: 'Home', href: '/', current: true },
@@ -85,11 +88,14 @@ const StudentHeader: React.FC = () => {
                                         <div className=" pl-3 ml-3 items-end">
                                             <ProfileMenu />
                                         </div>
+                                        <div className="pl-3 ml-3">
+                                            <SwitchUserButton />
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="overflow-hidden">
                                         <div className="hidden h-8 w-64 lg:mt-3 lg:h-12 lg:w-72 md:flex">
-                                            <div className="space-x-4 ">
+                                            <div className="flex space-x-4">
                                                 <Button
                                                     variant="contained"
                                                     onClick={() => openModal('login')}
@@ -106,10 +112,13 @@ const StudentHeader: React.FC = () => {
                                                     Register
                                                 </Button>
                                                 {isOpen && modalType === 'register' && <RegisterModal />}
-                                                <Link to="/instructors/login">
-                                                    <button className="bg-purple-800 hover:bg-purple-900 text-xs text-white lg:text-sm font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline">
-                                                        Instructor Login
-                                                    </button>
+                                                <Link to="/instructors">
+                                                    <Button
+                                                        variant="contained"
+                                                        className="bg-purple-800 hover:bg-purple-900 text-xs text-white lg:text-sm font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline"
+                                                    >
+                                                        Teach on KUONDEV
+                                                    </Button>
                                                 </Link>
                                             </div>
                                         </div>
@@ -148,27 +157,50 @@ const StudentHeader: React.FC = () => {
                             </div>
                             <div className="border-t border-gray-700 pb-3 pt-4">
                                 <div className="mt-3 space-y-1 px-2">
-                                    <Button
-                                        variant="contained"
-                                        onClick={() => openModal('login')}
-                                        className="w-full mb-2 block rounded-md px-3 py-2 text-base font-medium  text-gray-200 bg-blue-300 hover:bg-blue-500   hover:text-white"
-                                    >
-                                        Login
-                                    </Button>
-                                    {isOpen && modalType === 'login' && <LoginModal />}
-                                    <Button
-                                        variant="contained"
-                                        onClick={() => openModal('register')}
-                                        className="w-full mb-2 block rounded-md px-3 py-2 text-base font-medium  text-gray-200 bg-blue-300 hover:bg-blue-500  hover:text-white"
-                                    >
-                                        Register
-                                    </Button>
-                                    {isOpen && modalType === 'register' && <RegisterModal />}
-                                    <Link to="/instructors/login">
-                                        <button className="w-full block bg-purple-800 hover:bg-purple-900 text-sm text-gray-200 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                            Instructor Login
-                                        </button>
-                                    </Link>
+                                    {isLoggedIn && user === 'student' ? (
+                                        <div className="md:ml-5 md:flex items-center justify-between">
+                                            <div className="">
+                                                <Link to="/dashboard">
+                                                    <Button size="medium" color="primary">
+                                                        Dashboard
+                                                    </Button>
+                                                </Link>
+                                            </div>
+                                            <div className=" pl-3 ml-3 items-end">
+                                                <ProfileMenu />
+                                            </div>
+                                            <div className="pl-3 ml-3">
+                                                <SwitchUserButton />
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="flex space-x-4">
+                                            <Button
+                                                variant="contained"
+                                                onClick={() => openModal('login')}
+                                                className="bg-blue-300 hover:bg-blue-500 text-xs lg:text-sm text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline"
+                                            >
+                                                Login
+                                            </Button>
+                                            {isOpen && modalType === 'login' && <LoginModal />}
+                                            <Button
+                                                variant="contained"
+                                                onClick={() => openModal('register')}
+                                                className="bg-blue-300 hover:bg-blue-500  text-xs lg:text-sm text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline"
+                                            >
+                                                Register
+                                            </Button>
+                                            {isOpen && modalType === 'register' && <RegisterModal />}
+                                            <Link to="/instructors">
+                                                <Button
+                                                    variant="contained"
+                                                    className="bg-purple-800 hover:bg-purple-900 text-xs text-white lg:text-sm font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline"
+                                                >
+                                                    Teach on KUONDEV
+                                                </Button>
+                                            </Link>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </Disclosure.Panel>

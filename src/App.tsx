@@ -14,14 +14,14 @@ import { selectIsLoggedIn, selectUserType } from './redux/reducers/authSlice';
 import { selectIsFooterVisible } from './redux/reducers/helperSlice';
 import { fetchStudentData } from './redux/reducers/studentSlice';
 import SessionExpired from './components/common/session-expired-modal';
-import InstructorLoginPage from './components/pages/instructors/instructor-login-page';
 import { getInstructorDetails } from './api/endpoints/instructor';
 import { setDetails } from './redux/reducers/instructorSlice';
 import { AdminSideNav } from './components/pages/admin/admin-side-nav';
 import { toast } from 'react-toastify';
 import { AppDispatch } from './redux/store';
-import { ModalProvider, useModal } from './components/common/modal-context';
+import { ModalProvider, useModal } from './context/modal-context';
 import LoginModal from './components/pages/students/student-login-modal';
+import InstructorPage from './components/pages/instructors/instructor-page';
 
 export const Student: React.FC = () => {
     const isOnline = useIsOnline();
@@ -105,6 +105,7 @@ export const Instructor: React.FC = () => {
 
     return (
         <>
+            <StudentHeader />
             {isOnline ? (
                 isLoggedIn && user === 'instructor' ? (
                     <>
@@ -123,13 +124,12 @@ export const Instructor: React.FC = () => {
                         </div>
                     </>
                 ) : (
-                    <div>
-                        <InstructorLoginPage />
-                    </div>
+                    <InstructorPage />
                 )
             ) : (
                 <YouAreOffline />
             )}
+            <StudentFooter />
         </>
     );
 };

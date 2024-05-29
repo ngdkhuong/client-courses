@@ -12,7 +12,8 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ThemeProvider } from '@mui/material';
 import { unstable_createMuiStrictModeTheme } from '@mui/material/styles';
 import CONFIG_KEYS from './config';
-import { ModalProvider } from './components/common/modal-context';
+import { ModalProvider } from './context/modal-context';
+import { UserTypeProvider } from './context/switch-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -25,8 +26,10 @@ root.render(
                 <PersistGate loading={null} persistor={persistor}>
                     <ThemeProvider theme={theme}>
                         <ModalProvider>
-                            <RouterProvider router={AppRouter} />
-                            <ToastContainer />
+                            <UserTypeProvider>
+                                <RouterProvider router={AppRouter} />
+                                <ToastContainer />
+                            </UserTypeProvider>
                         </ModalProvider>
                     </ThemeProvider>
                 </PersistGate>

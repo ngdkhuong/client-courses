@@ -11,7 +11,6 @@ import DashHome from './components/pages/student-dash/dash-home';
 import InstructorChannels from './components/pages/channel/instructor-channels';
 
 // * Student Route
-const LazyStudentRegister = lazy(() => import('./components/pages/students/student-register-modal'));
 const LazyStudentHomePage = lazy(() => import('./components/pages/students/student-home-page'));
 const LazyStudentDash = lazy(() => import('./components/pages/student-dash/user-dashboard'));
 const LazyStudents = lazy(() => import('./components/pages/student-management/students-tab'));
@@ -28,8 +27,7 @@ const LazyContactPage = lazy(() => import('./components/pages/contact/contact-us
 const LazyCategories = lazy(() => import('./components/pages/categories/category-page'));
 
 // * Instructor Route
-const LazyInstructorLogin = lazy(() => import('./components/pages/instructors/instructor-login-page'));
-const LazyInstructorRegister = lazy(() => import('./components/pages/instructors/instructor-register-page'));
+const LazyInstructorPage = lazy(() => import('./components/pages/instructors/instructor-page'));
 const LazyInstructorIndex = lazy(() => import('./components/pages/instructor-management/view-instructors-index'));
 const LazyViewInstructor = lazy(() => import('./components/pages/instructors/view-instructor'));
 const LazyInstructorsListing = lazy(() => import('./components/pages/instructors/list-all-instructors'));
@@ -172,30 +170,6 @@ const AppRouter = createBrowserRouter([
     //     element: <StripeContainer />,
     // },
     {
-        path: '/register',
-        element: (
-            <Suspense fallback={<div>Loading...</div>}>
-                <LazyStudentRegister />
-            </Suspense>
-        ),
-    },
-    {
-        path: '/instructors/login',
-        element: (
-            <Suspense fallback={<div>Loading...</div>}>
-                <LazyInstructorLogin />
-            </Suspense>
-        ),
-    },
-    {
-        path: '/instructors/register',
-        element: (
-            <Suspense fallback={<div>Loading...</div>}>
-                <LazyInstructorRegister />
-            </Suspense>
-        ),
-    },
-    {
         path: 'admin',
         element: <Admin />,
         errorElement: <ErrorElement />,
@@ -280,7 +254,7 @@ const AppRouter = createBrowserRouter([
         errorElement: <ErrorElement />,
         children: [
             {
-                path: '/instructors',
+                path: 'courses',
                 element: <InstructorDashboard />,
             },
             {
